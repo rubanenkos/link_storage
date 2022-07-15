@@ -1,6 +1,30 @@
 {
-    "name": "Link Storage",
+    "name": "Personal Link Storage",
     "description": "Personal link storage",
     "version": "1.0",
-    "manifest_version": 3
+    "manifest_version": 3,
+    
+    
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "app",
+      "default_icon": {
+          "128": "/images/ls_icon.png"
+        }
+      },
+
+      "icons": {
+        "128": "/images/ls_icon.png"
+      },
+
+      "content_scripts": [
+        {
+            "matches": [ "<all_urls>" ],
+            "js": [ "background.js", "popup.html" ]
+        }
+    ]
+    
+   
+
+
   }
