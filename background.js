@@ -1,33 +1,30 @@
-let link = window.location.href;
-// console.log(link);
-// function do_alert(e) {
-//   alert(e.key);
-// }
-// document.addEventListener("keydown", do_alert);
+// let link = () => {
+//   let l = window.location.href;
+//   console.log(l);
+//   return l;
+// };
 
-// window.addEventListener(
-//   "keypress",
-//   function (e) {
-//     if (e.shiftKey) {
-//       alert("Here it is.");
-//     }
-//   },
-//   false
-// );
+try {
+  let link = () => {
+    return location.href;
+  };
 
-document.addEventListener(
-  "keydown",
-  (e) => {
-    if (
-      e.ctrlKey &&
-      e.shiftKey &&
-      String.fromCharCode(e.keyCode).toLowerCase() === "f"
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-      alert(link);
-      // Do some stuff...
-    }
-  },
-  false
-);
+  document.addEventListener(
+    "keydown",
+    (e) => {
+      if (
+        e.ctrlKey &&
+        e.shiftKey &&
+        String.fromCharCode(e.keyCode).toLowerCase() === "f"
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        alert(link());
+        // Do some stuff...
+      }
+    },
+    false
+  );
+} catch (e) {
+  // console.error(e);
+}
