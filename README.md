@@ -1,1 +1,1 @@
-# link_storage
+# Personal link storage - Chrome extention
