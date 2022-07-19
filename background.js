@@ -1,9 +1,3 @@
-// let link = () => {
-//   let l = window.location.href;
-//   console.log(l);
-//   return l;
-// };
-
 try {
   let link = () => {
     return location.href;

@@ -5,8 +5,16 @@ let getActiveTabLink = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var currentTab = tabs[0];
     console.log(currentTab);
-    alert(`"'add-link-button' was pressed\n ${currentTab.url}"`);
-    console.log(currentTab);
+    // alert(`"'add-link-button' was pressed\n ${currentTab.url}"`);
+
+    const data = {
+      date: new Date().toJSON(),
+      title: currentTab.title,
+      url: currentTab.url,
+    };
+    console.log(data);
+
+    DataBase.create(data);
   });
 };
 
