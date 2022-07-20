@@ -1,5 +1,5 @@
 class DataBase {
-  static create(data) {
+  static create_record(data) {
     console.log(data);
     fetch(
       "https://personal-link-storage-default-rtdb.europe-west1.firebasedatabase.app/links.json",
@@ -14,6 +14,19 @@ class DataBase {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+      });
+  }
+
+  static read_records() {
+    return fetch(
+      "https://personal-link-storage-default-rtdb.europe-west1.firebasedatabase.app/links.json"
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        Object.keys(response).map((key) =>
+          console.log({ ...response[key], id: key })
+        );
+        // console.log(response);
       });
   }
 }

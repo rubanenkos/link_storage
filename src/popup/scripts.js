@@ -14,12 +14,15 @@ let getActiveTabLink = () => {
     };
     console.log(data);
 
-    DataBase.create(data);
+    DataBase.create_record(data);
+    // window.close();
   });
 };
 
 let showStorage = () => {
   console.log("Show Storage function was called");
+  DataBase.read_records();
+  // window.close();
 };
 
 if (addPageButtonElem) {
