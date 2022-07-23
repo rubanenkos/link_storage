@@ -1,0 +1,22 @@
+.btn-group button {
+    background-color: #04AA6D; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    padding: 7px 18px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    display: block;
+    
+    border-radius: 4px; /* Round element */
+    width: 250px; 
+  }
+  table, th, td {
+    border:1px solid black;
+  }
+
+  .output-group {
+      color: yellowgreen;
+  }
+  
+  #output_data_title {
+    color: red; /* White text */
+  }

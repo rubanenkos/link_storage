@@ -23,9 +23,10 @@ class DataBase {
     )
       .then((response) => response.json())
       .then((response) => {
-        Object.keys(response).map((key) =>
-          console.log({ ...response[key], id: key })
-        );
+        return Object.keys(response).map((key) => ({
+          ...response[key],
+          id: key,
+        }));
         // console.log(response);
       });
   }
