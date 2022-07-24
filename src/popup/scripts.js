@@ -1,7 +1,6 @@
 const addPageButtonElem = document.getElementById("add-link-button");
 const showStorageButtonElem = document.getElementById("show-storage-button");
 const manageLinksButtonElem = document.getElementById("manage-links-button");
-// const listElem = document.getElementById("list_popup");
 
 let getActiveTabLink = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -20,51 +19,105 @@ let getActiveTabLink = () => {
 };
 
 let showStorage = () => {
-  console.log("Show Storage function was called");
-  // const newWindow = manageLinks();
-  // alert("newWindow= " + newWindow);
-  // let listElem = newWindow.document.getElementById("list_popup");
-  // alert("list_elem=" + listElem);
-
   let dbResponse = DataBase.read_records()
-    .then(renderHTML)
+    // .then(renderHTML)
     .then(function (response) {
       return response;
     });
 
-  // alert(aaa);
-  // const newWindow = window.open("../link_list/link_list.html", "_blank");
-  // newWindow.document.write(aaa);
-
   dbResponse
     .then((response) => {
       const newWindow = window.open("../link_list/link_list.html", "_blank");
+      // const newWindow = window;
       return { page: newWindow, response: response };
     })
     .then((data) => {
-      data["page"].document.write(data["response"]);
+      data["page"].document.write(
+        `<html lang="en">
+        <head>
+          <style type="text/css">
+            #data_list {color: rgb(55, 80, 5);font-family: "Arial, Helvetica, sans-serif"; font-size: 18px;}
+          </style>
+          <title>Full list of links</title>
+        </head>
+        <body>
+        <div class="output-group"><ol id="data_list"></ol></div>
+        </body>
+        </html>`
+      );
+      console.log(data["response"]);
+      addDataToHTML(data["page"], data["response"]);
       // newWindow.document.write(a);
     });
-
-  // .then((a) => {
-  // newWindow.document.write(a);
-  // alert(a);
-  //   // newWindow.document.write("Your HTML 222222");
-  //   // listElem.innerHTML = a;
-  // });
-  // alert("Rendered");
-  // window.close();
-  // let bbb = sss.then((value) => console.log(value));
-  // alert(bbb);
 };
 
-let manageLinks = () => {
-  const newWindow = window.open("../link_list/link_list.html", "_blank");
-  return newWindow;
-};
+function addDataToHTML(page, data) {
+  // page = window;
+  for (let key in data) {
+    console.log(key, data[key]);
+
+    const recordDate = createCustomElement(
+      page,
+      "div",
+      { class: "date" },
+      `${data[key].date.split("T")[0]} `
+    );
+    const recordTitle = createCustomElement(
+      page,
+      "div",
+      { class: "title" },
+      `${data[key].title} `
+    );
+    const recordUrl = createCustomElement(
+      page,
+      "a",
+      { href: data[key].url, class: "url" },
+      data[key].url
+    );
+
+    // const recordSeparator = createCustomElement(page, "br");
+
+    const node = createCustomElement(page, "li", { id: data[key].id }, [
+      recordTitle,
+      // recordSeparator,
+      recordUrl,
+      // recordSeparator,
+      recordDate,
+    ]);
+
+    console.log(node);
+    const elem = page.document.getElementById("data_list");
+    elem.appendChild(node);
+  }
+}
+
+function createCustomElement(page, element, attribute, inner) {
+  if (typeof element === "undefined") {
+    return false;
+  }
+  if (typeof inner === "undefined") {
+    inner = "";
+  }
+  var el = page.document.createElement(element);
+  if (typeof attribute === "object") {
+    for (var key in attribute) {
+      el.setAttribute(key, attribute[key]);
+    }
+  }
+  if (!Array.isArray(inner)) {
+    inner = [inner];
+  }
+  for (var k = 0; k < inner.length; k++) {
+    if (inner[k].tagName) {
+      el.appendChild(inner[k]);
+    } else {
+      el.appendChild(page.document.createTextNode(inner[k]));
+    }
+  }
+  return el;
+}
 
 function renderHTML(content) {
-  // console.log(content);
   return `<ol>${content
     .map(
       (c) =>
@@ -76,6 +129,11 @@ function renderHTML(content) {
     )
     .join(" ")}</ol>`;
 }
+
+let manageLinks = () => {
+  const newWindow = window.open("../link_list/link_list.html", "_blank");
+  return newWindow;
+};
 
 if (addPageButtonElem) {
   addPageButtonElem.addEventListener("click", getActiveTabLink);
